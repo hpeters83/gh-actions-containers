@@ -14,8 +14,8 @@ jobs:
     # The runner
     runs-on: ubuntu-latest
     # Container to start in the runner:
-    container: 
-      image: node:16
+    # container: 
+    #   image: node:16
     # container:
     #   image: node:16
     #   env: 
@@ -23,8 +23,10 @@ jobs:
       # MONGODB_CONNECTION_PROTOCOL: mongodb+srv
       # MONGODB_CLUSTER_ADDRESS: hugoghacluster.rlaqucb.mongodb.net
       MONGODB_CONNECTION_PROTOCOL: mongodb
-      # Same name as the service that is running
-      MONGODB_CLUSTER_ADDRESS: mongodb
+      # Same name as the service that is running (only works when job runs in container)
+      # MONGODB_CLUSTER_ADDRESS: mongodb
+      # When job runs on the runner:
+      MONGODB_CLUSTER_ADDRESS: 127.0.0.1:27017  
       # MONGODB_USERNAME: ${{ secrets.MONGODB_USERNAME }}
       # MONGODB_PASSWORD: ${{ secrets.MONGODB_PASSWORD }}
       MONGODB_USERNAME: root
@@ -33,6 +35,8 @@ jobs:
     services:
       mongodb:
         image: mongo
+        ports:
+          - 27017:27017
         env: 
           MONGO_INITDB_ROOT_USERNAME: root
           MONGO_INITDB_ROOT_PASSWORD: example
